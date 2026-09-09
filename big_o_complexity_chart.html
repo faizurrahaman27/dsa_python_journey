@@ -1,0 +1,70 @@
+
+<style>
+  .bigo-wrap { padding: 1rem 0; }
+  .legend { display: flex; flex-wrap: wrap; gap: 16px; margin-bottom: 1.25rem; }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--color-text-secondary); font-family: var(--font-mono); }
+  .legend-dot { width: 28px; height: 3px; border-radius: 2px; }
+  .label-group { font-size: 12px; font-family: var(--font-mono); color: var(--color-text-secondary); }
+</style>
+
+<div class="bigo-wrap">
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:#1D9E75"></div>O(1) — constant</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#378ADD"></div>O(log n) — logarithmic</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#9FE1CB; border: 1px dashed #1D9E75"></div>O(n) — linear</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#FAC775"></div>O(n log n)</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#E24B4A"></div>O(n²) — quadratic</div>
+  </div>
+  <div style="position: relative; width: 100%; height: 300px;">
+    <canvas id="bigoChart"></canvas>
+  </div>
+  <div style="margin-top: 1.5rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(0, 1fr)); gap: 10px;">
+    <div style="background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 12px; border-left: 3px solid #1D9E75;">
+      <div style="font-size: 13px; font-weight: 500; color: var(--color-text-primary); font-family: var(--font-mono);">O(1)</div>
+      <div style="font-size: 12px; color: var(--color-text-secondary); margin-top: 4px;">dict lookup<br>list[i] access</div>
+    </div>
+    <div style="background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 12px; border-left: 3px solid #378ADD;">
+      <div style="font-size: 13px; font-weight: 500; color: var(--color-text-primary); font-family: var(--font-mono);">O(log n)</div>
+      <div style="font-size: 12px; color: var(--color-text-secondary); margin-top: 4px;">binary search<br>balanced BST ops</div>
+    </div>
+    <div style="background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 12px; border-left: 3px solid #9FE1CB;">
+      <div style="font-size: 13px; font-weight: 500; color: var(--color-text-primary); font-family: var(--font-mono);">O(n)</div>
+      <div style="font-size: 12px; color: var(--color-text-secondary); margin-top: 4px;">single loop<br>list search</div>
+    </div>
+    <div style="background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 12px; border-left: 3px solid #FAC775;">
+      <div style="font-size: 13px; font-weight: 500; color: var(--color-text-primary); font-family: var(--font-mono);">O(n log n)</div>
+      <div style="font-size: 12px; color: var(--color-text-secondary); margin-top: 4px;">merge sort<br>heapsort</div>
+    </div>
+    <div style="background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 12px; border-left: 3px solid #E24B4A;">
+      <div style="font-size: 13px; font-weight: 500; color: var(--color-text-primary); font-family: var(--font-mono);">O(n²)</div>
+      <div style="font-size: 12px; color: var(--color-text-secondary); margin-top: 4px;">nested loops<br>bubble sort</div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+const ns = [1,2,4,8,16,24,32,40,48,56,64];
+const cap = v => Math.min(v, 5000);
+new Chart(document.getElementById('bigoChart'), {
+  type: 'line',
+  data: {
+    labels: ns.map(n => 'n='+n),
+    datasets: [
+      { label: 'O(1)',      data: ns.map(() => 1),              borderColor: '#1D9E75', backgroundColor: 'transparent', borderWidth: 2, pointRadius: 0, tension: 0.3 },
+      { label: 'O(log n)',  data: ns.map(n => cap(Math.log2(n))),   borderColor: '#378ADD', backgroundColor: 'transparent', borderWidth: 2, pointRadius: 0, tension: 0.3 },
+      { label: 'O(n)',      data: ns.map(n => cap(n)),               borderColor: '#9FE1CB', backgroundColor: 'transparent', borderWidth: 2, pointRadius: 0, tension: 0.3, borderDash: [5,3] },
+      { label: 'O(n log n)',data: ns.map(n => cap(n*Math.log2(n))),  borderColor: '#FAC775', backgroundColor: 'transparent', borderWidth: 2, pointRadius: 0, tension: 0.3 },
+      { label: 'O(n²)',     data: ns.map(n => cap(n*n)),             borderColor: '#E24B4A', backgroundColor: 'transparent', borderWidth: 2.5, pointRadius: 0, tension: 0.3 },
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false }, tooltip: { mode: 'index', intersect: false } },
+    scales: {
+      x: { grid: { color: 'rgba(128,128,128,0.1)' }, ticks: { font: { family: 'monospace', size: 11 }, color: '#888', maxTicksLimit: 8 } },
+      y: { grid: { color: 'rgba(128,128,128,0.1)' }, ticks: { font: { family: 'monospace', size: 11 }, color: '#888', maxTicksLimit: 6 }, title: { display: true, text: 'operations', color: '#888', font: { size: 11 } } }
+    }
+  }
+});
+</script>
