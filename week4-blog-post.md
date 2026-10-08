@@ -161,5 +161,5 @@ All solutions on GitHub.
 ---
 
 *Week 4 of a 10-week 80/20 DSA plan.*
-*All solutions: https://github.com/faizur55*
+*All solutions: https://github.com/faizurrahaman27*
 *Daily updates: #100DaysOfDSA*
