@@ -222,6 +222,6 @@ All solutions on GitHub.
 ---
 
 *Week 6 of a 10-week 80/20 DSA plan.*
-*All solutions: [YOUR GITHUB LINK]*
-*Mental Framework PDF: [YOUR GITHUB LINK]*
+*All solutions: https://github.com/faizurrahaman27*
+*Mental Framework PDF: https://github.com/faizurrahaman27*
 *Daily updates: #100DaysOfDSA*
